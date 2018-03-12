@@ -16,7 +16,7 @@
                 <splitViewController id="vCX-7A-Gnq" sceneMemberID="viewController">
                     <connections>
                         <segue destination="kHr-ZE-m9b" kind="relationship" relationship="masterViewController" id="iLf-XC-Y8J"/>
-                        <segue destination="BYZ-38-t0r" kind="showDetail" id="KOP-L2-0UH"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="detailViewController" id="iaR-LW-jGf"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YtW-jd-GF5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -72,23 +72,28 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="EmojiViewController" customModule="EmojiArt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="703.5" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="deL-Ts-nVU">
-                                <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
+                                <rect key="frame" x="0.0" y="20" width="703.5" height="748"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yWn-zC-i0U" customClass="EmojiArtView" customModule="EmojiArt" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="748"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </view>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r3u-vu-Cdq">
+                                        <rect key="frame" x="0.0" y="0.0" width="703.5" height="748"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" priority="250" constant="748" id="2LL-ty-PUr"/>
+                                            <constraint firstAttribute="width" priority="250" constant="703.5" id="gaK-e5-KlM"/>
+                                        </constraints>
+                                    </scrollView>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="yWn-zC-i0U" secondAttribute="trailing" id="HcJ-ru-zX7"/>
-                                    <constraint firstItem="yWn-zC-i0U" firstAttribute="top" secondItem="deL-Ts-nVU" secondAttribute="top" id="KaQ-wf-enK"/>
-                                    <constraint firstAttribute="bottom" secondItem="yWn-zC-i0U" secondAttribute="bottom" id="QVh-yv-v0n"/>
-                                    <constraint firstItem="yWn-zC-i0U" firstAttribute="leading" secondItem="deL-Ts-nVU" secondAttribute="leading" id="bR3-6f-YpY"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="r3u-vu-Cdq" secondAttribute="bottom" id="5GO-mR-Ojs"/>
+                                    <constraint firstItem="r3u-vu-Cdq" firstAttribute="top" relation="greaterThanOrEqual" secondItem="deL-Ts-nVU" secondAttribute="top" id="C7k-GT-sMX"/>
+                                    <constraint firstItem="r3u-vu-Cdq" firstAttribute="centerY" secondItem="deL-Ts-nVU" secondAttribute="centerY" id="Cte-d7-moC"/>
+                                    <constraint firstItem="r3u-vu-Cdq" firstAttribute="centerX" secondItem="deL-Ts-nVU" secondAttribute="centerX" id="MSX-37-x8g"/>
+                                    <constraint firstItem="r3u-vu-Cdq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="deL-Ts-nVU" secondAttribute="leading" id="NFJ-KT-kw9"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="r3u-vu-Cdq" secondAttribute="trailing" id="yWu-Wk-EfD"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -103,7 +108,9 @@
                     </view>
                     <connections>
                         <outlet property="dropZone" destination="deL-Ts-nVU" id="Gge-6U-c47"/>
-                        <outlet property="emojiArtView" destination="yWn-zC-i0U" id="veu-De-NqX"/>
+                        <outlet property="scrollView" destination="r3u-vu-Cdq" id="Jvc-dt-4Mv"/>
+                        <outlet property="scrollViewHeight" destination="2LL-ty-PUr" id="gUO-Tt-tOS"/>
+                        <outlet property="scrollViewWidth" destination="gaK-e5-KlM" id="zeS-zJ-oxf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
