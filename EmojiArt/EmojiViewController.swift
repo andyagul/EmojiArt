@@ -9,7 +9,7 @@
 import UIKit
 
 class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate  {
-   
+    
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
         let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item:0, section:0)
         for item in coordinator.items{
@@ -22,6 +22,26 @@ class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollVi
                         collectionView.insertItems(at: [destinationIndexPath])
                     }, completion: nil)
                     coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+                }
+            }else{
+                let placeholderContext = coordinator.drop(
+                    item.dragItem,
+                    to: UICollectionViewDropPlaceholder(insertionIndexPath: destinationIndexPath, reuseIdentifier: "DropPlaceholderCell")
+                )
+                item.dragItem.itemProvider.loadObject(ofClass: NSAttributedString.self){
+                    (provider, error) in
+                    DispatchQueue.main.async {
+                        if let attributedString = provider as? NSAttributedString{
+                            placeholderContext.commitInsertion(dataSourceUpdates: {insertionIndexPath in 
+                                self.emojis.insert(attributedString.string, at: insertionIndexPath.item)
+                            })
+                        }else{
+                            placeholderContext.deletePlaceholder()
+                        }
+                      
+                    }
+                        
+                    
                 }
             }
         }
@@ -55,7 +75,7 @@ class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollVi
     func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
         return drapItem(at:indexPath)
     }
-
+    
     
     @IBOutlet weak var dropZone: UIView!{
         didSet{
@@ -65,7 +85,7 @@ class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollVi
     }
     
     var emojiArtView =  EmojiArtView()
-
+    
     @IBOutlet weak var scrollView: UIScrollView!{
         didSet{
             scrollView.minimumZoomScale = 0.1
@@ -91,7 +111,7 @@ class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollVi
     
     var emojiArtBackgoundImage:UIImage?{
         get{
-          return  emojiArtView.backgourdImage
+            return  emojiArtView.backgourdImage
         }
         set{
             scrollView?.zoomScale = 1.0
@@ -139,7 +159,7 @@ class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollVi
             emojiCell.label.attributedText = text
         }
         return cell
-     }
+    }
     
     
     private var font:UIFont{
@@ -164,22 +184,22 @@ class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollVi
         session.loadObjects(ofClass: NSURL.self){ nsurls in
             
             if let url = nsurls.first as? URL{
-            self.imageFetcher.fetch(url)
+                self.imageFetcher.fetch(url)
             }}
         session.loadObjects(ofClass: UIImage.self){ images in
             if let image = images.first as? UIImage{
-            self.imageFetcher.backup = image
-            
-        }
+                self.imageFetcher.backup = image
+                
+            }
         }
         
     }
     
     
-
-
-
-
-
+    
+    
+    
+    
+    
 }
 
