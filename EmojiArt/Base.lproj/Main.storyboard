@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -149,6 +150,53 @@
                                             <constraint firstItem="cIw-E0-SWF" firstAttribute="centerX" secondItem="7cq-ta-2gI" secondAttribute="centerX" id="xXh-rZ-EoP"/>
                                         </constraints>
                                     </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AddEmojiButtonCell" id="gUM-Sk-erR">
+                                        <rect key="frame" x="180" y="0.5" width="80" height="79"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="80" height="79"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DoW-kZ-aUt">
+                                                    <rect key="frame" x="21" y="-5" width="39" height="89"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="64"/>
+                                                    <state key="normal" title="+"/>
+                                                    <connections>
+                                                        <action selector="addEmoji:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jPA-Vt-2TI"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="DoW-kZ-aUt" firstAttribute="centerX" secondItem="gUM-Sk-erR" secondAttribute="centerX" id="Ya5-rp-KGS"/>
+                                            <constraint firstItem="DoW-kZ-aUt" firstAttribute="centerY" secondItem="gUM-Sk-erR" secondAttribute="centerY" id="npi-8Q-NDi"/>
+                                        </constraints>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EmojiInputCell" id="XHD-UW-O8g" customClass="TextFieldCollectionViewCell" customModule="EmojiArt" customModuleProvider="target">
+                                        <rect key="frame" x="270" y="0.5" width="80" height="79"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="80" height="79"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wum-q6-t45">
+                                                    <rect key="frame" x="8" y="25" width="64" height="30"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="wum-q6-t45" firstAttribute="centerY" secondItem="XHD-UW-O8g" secondAttribute="centerY" id="8oi-TK-cJK"/>
+                                            <constraint firstItem="wum-q6-t45" firstAttribute="leading" secondItem="XHD-UW-O8g" secondAttribute="leadingMargin" id="Rqb-PU-Xik"/>
+                                            <constraint firstItem="wum-q6-t45" firstAttribute="centerX" secondItem="XHD-UW-O8g" secondAttribute="centerX" id="icf-XG-pYg"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="wum-q6-t45" secondAttribute="trailing" id="qCP-fN-4vO"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="textField" destination="wum-q6-t45" id="eV1-XJ-1fr"/>
+                                        </connections>
+                                    </collectionViewCell>
                                 </cells>
                             </collectionView>
                         </subviews>
@@ -174,7 +222,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-375" y="-546"/>
+            <point key="canvasLocation" x="-375" y="-546.09375"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gEI-KH-T7q">
