@@ -8,7 +8,62 @@
 
 import UIKit
 
+
+extension EmojiArt.EmojiInfo{
+    init?(label: UILabel) {
+        if let attributeText = label.attributedText, let font = attributeText.font{
+            x = Int(label.center.x)
+            y = Int(label.center.y)
+            text = attributeText.string
+            size = Int(font.pointSize)
+        }else{
+            return nil
+        }
+    }
+}
+
+
+
+
 class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate  {
+    
+    //MARK: - Model
+    
+    var emojiArt: EmojiArt?{
+        get{
+            if let url = emojiArtBackgoundImage.url{
+                let emojis = emojiArtView.subviews.flatMap { $0 as? UILabel }.flatMap { EmojiArt.EmojiInfo(label: $0) }
+                return EmojiArt(url: url, emojis: emojis)
+            }
+            return nil
+        }
+        set{
+            emojiArtBackgoundImage = (nil, nil)
+            emojiArtView.subviews.flatMap{$0 as? UILabel}.forEach{$0.removeFromSuperview() }
+            if let url = newValue?.url{
+                imageFetcher = ImageFetcher(fetch:url){ (url, image) in
+                    DispatchQueue.main.async {
+                        self.emojiArtBackgoundImage = (url, image)
+                        newValue?.emojis.forEach {
+                            let attributedText = $0.text.attributedString(withTextStyle: .body, ofSize: CGFloat($0.size))
+                            self.emojiArtView.addLabel(with:attributedText, centeredAt: CGPoint(x: $0.x, y: $0.y))
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    @IBAction func save(_ sender: UIBarButtonItem) {
+        if let json = emojiArt?.json{
+            if let jsonString = String(data: json, encoding: .utf8){
+                print(jsonString)
+            }
+        }
+    }
+    //
     
     private var addingEmoji = false
    
@@ -200,14 +255,18 @@ class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollVi
         return emojiArtView
     }
     
-    var emojiArtBackgoundImage:UIImage?{
+    
+    private var _emojiArtBackgroundImageURL:URL?
+    
+    var emojiArtBackgoundImage:(url:URL?, image:UIImage?){
         get{
-            return  emojiArtView.backgourdImage
+            return  (_emojiArtBackgroundImageURL, emojiArtView.backgourdImage)
         }
         set{
+            _emojiArtBackgroundImageURL = newValue.url
             scrollView?.zoomScale = 1.0
-            emojiArtView.backgourdImage = newValue
-            let size = newValue?.size ?? CGSize.zero
+            emojiArtView.backgourdImage = newValue.image
+            let size = newValue.image?.size ?? CGSize.zero
             emojiArtView.frame = CGRect(origin:CGPoint.zero, size:size)
             scrollView?.contentSize = size
             scrollViewHeight?.constant = size.height
@@ -258,7 +317,7 @@ class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollVi
         
         imageFetcher = ImageFetcher(){(url, image) in
             DispatchQueue.main.async {
-                self.emojiArtBackgoundImage  = image
+                self.emojiArtBackgoundImage  = (url,image)
             }
             
         }
