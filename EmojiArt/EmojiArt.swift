@@ -23,6 +23,15 @@ struct EmojiArt: Codable {
         return try? JSONEncoder().encode(self)
     }
     
+    init? (json:Data){
+        if let newVaule = try? JSONDecoder().decode(EmojiArt.self, from: json){
+            self = newVaule
+        }else{
+            return nil
+        }
+        
+    }
+    
     init(url: URL, emojis:[EmojiInfo]) {
         self.url = url
         self.emojis = emojis
