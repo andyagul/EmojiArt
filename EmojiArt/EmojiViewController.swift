@@ -57,17 +57,27 @@ class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollVi
     
     
     @IBAction func save(_ sender: UIBarButtonItem) {
-        if let json = emojiArt?.json{
-            if let jsonString = String(data: json, encoding: .utf8){
-                print(jsonString)
+        if let json = emojiArt?.json {
+            if let url = try? FileManager.default.url(
+                for: .documentDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: true
+            ).appendingPathComponent("Untitled.json"){
+                do {
+                    try  json.write(to: url)
+                    print("save successfully")
+                }catch let error{
+                    print("Couldn't save \(error)")
+                }
             }
         }
     }
     //
     
     private var addingEmoji = false
-   
-  
+    
+    
     @IBAction func addEmoji(_ sender: UIButton) {
         addingEmoji = true
         emojiCollectionView.reloadSections(IndexSet(integer:0))
@@ -89,12 +99,12 @@ class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollVi
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath)
-//        if let emojiCell = cell as? EmojiCollectionViewCell{
-//            let text = NSAttributedString(string: emojis[indexPath.item], attributes: [.font:font])
-//            emojiCell.label.attributedText = text
-//        }
-//        return cell
+        //        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath)
+        //        if let emojiCell = cell as? EmojiCollectionViewCell{
+        //            let text = NSAttributedString(string: emojis[indexPath.item], attributes: [.font:font])
+        //            emojiCell.label.attributedText = text
+        //        }
+        //        return cell
         
         if indexPath.section == 1{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath)
@@ -165,9 +175,9 @@ class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollVi
                         }else{
                             placeholderContext.deletePlaceholder()
                         }
-                      
-                    }
                         
+                    }
+                    
                     
                 }
             }
@@ -200,14 +210,14 @@ class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollVi
     
     
     private func drapItem(at indexPath:IndexPath) -> [UIDragItem]{
-//        if let attributeString = ((emojiCollectionView.cellForItem(at: indexPath)) as? EmojiCollectionViewCell)?.label.attributedText
-//        {
-//            let dragItem = UIDragItem(itemProvider: NSItemProvider(object:attributeString))
-//            dragItem.localObject = attributeString
-//            return [dragItem]
-//        }else{
-//            return []
-//        }
+        //        if let attributeString = ((emojiCollectionView.cellForItem(at: indexPath)) as? EmojiCollectionViewCell)?.label.attributedText
+        //        {
+        //            let dragItem = UIDragItem(itemProvider: NSItemProvider(object:attributeString))
+        //            dragItem.localObject = attributeString
+        //            return [dragItem]
+        //        }else{
+        //            return []
+        //        }
         if !addingEmoji, let attributeString = (emojiCollectionView.cellForItem(at: indexPath) as?
             EmojiCollectionViewCell)?.label.attributedText{
             let dragItem = UIDragItem(itemProvider:NSItemProvider(object:attributeString))
@@ -298,9 +308,9 @@ class EmojiViewController: UIViewController,UIDropInteractionDelegate,UIScrollVi
     
     var emojis =  "😀😎👀🐬🐱🌹🌸🌈🛴✈️🌂⚽️🚗❤️🍉🍈🍎".map { String($0)}
     
- 
     
-   
+    
+    
     
     
     private var font:UIFont{
